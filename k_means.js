@@ -71,7 +71,6 @@ class k_means {
             this.drawPoints(this.points, this.centroids);
             this.drawScales();
             this.drawText(this.text);
-            console.log("loop")
             this.stop();
         };
     };
