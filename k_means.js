@@ -49,6 +49,12 @@ class k_means {
         this.centroids = [];
         this.exit = false;
     }
+    start() {
+        this.view.p.loop();
+    }
+    stop() {
+        this.view.p.noLoop();
+    }
 
     sketch = p => {
         p.setup = () => {
@@ -62,6 +68,7 @@ class k_means {
             this.drawClusters();
             this.drawPoints(this.points, this.centroids);
             this.drawScales();
+            this.stop();
         };
     };
     drawPoints(points, centroids) {
@@ -213,30 +220,29 @@ class k_means {
             let width = maxX[centroid.cluster] - minX[centroid.cluster];
             let height = maxY[centroid.cluster] - minY[centroid.cluster];
             this.view.p.strokeWeight(2);
+            this.view.p.stroke(this.clusterColors[centroid.cluster]);
             this.view.p.ellipseMode(this.view.p.CENTER);
             this.view.p.noFill();
-            this.view.p.ellipse(this.transX(centroid.x), this.transY(centroid.y), width*100, height*100);
+            this.view.p.ellipse(this.transX(centroid.x), this.transY(centroid.y), width*80, height*80);
         });
     }
 
     step() {
         if (this.exit) {
-
+            this.stop();
             return;
         };
         if (this.next_step == -1) {
-            console.log("getCentroids init");
             this.getCentroids(this.k, true);
         }
         else if ((this.next_step % 2) == 0) {
-            console.log("assignClusters");
             this.exit = this.assignClusters();
         }
         else if ((this.next_step % 2) != 0) {
-            console.log("getCentroids");
             this.getCentroids(this.k, false);
         }
         this.next_step += 1;
+        this.start();
     }
 
     fullKMeans() {
@@ -245,7 +251,7 @@ class k_means {
             this.exit = this.assignClusters();
             this.getCentroids(this.k, false);
         }
-        this.drawClusters();
+        this.start();
     }
 }
 
@@ -255,6 +261,9 @@ new p5(k_means_inst.sketch, 'k_means')
 let number_control = document.getElementById('numberControl')
 let k_select = document.getElementById("k_select");
 let dist_select = document.getElementById("dist_select");
+let btn_exec_k_means = document.getElementById("execute_k_means");
+let btn_step_k_means = document.getElementById("step_k_means");
+let btn_reset_k_means = document.getElementById("reset_k_means");
 
 number_control.addEventListener('input', e => {
     k_means_inst.init({ 
@@ -262,26 +271,43 @@ number_control.addEventListener('input', e => {
         k_value: k_select.value,
         dist_f: dist_select.value
     })
+    reset();
+    k_means_inst.start();
 }, false);
 
 k_select.addEventListener("change", e => {
-    k_means_inst.init({ 
-        // nr_points: number_control.value, 
-        k_value: e.target.value,
-        dist_f: dist_select.value
-    });
+    if (btn_exec_k_means.disabled) {
+        k_means_inst.init({
+            nr_points: number_control.value,
+            k_value: e.target.value,
+            dist_f: dist_select.value
+        });
+    }
+    else {
+        k_means_inst.init({
+            k_value: e.target.value,
+            dist_f: dist_select.value
+        });
+    }
+    reset();
 });
 
 dist_select.addEventListener("change", e => {
-    k_means_inst.init({ 
-        // nr_points: number_control.value, 
-        k_value: k_select.value,
-        dist_f: e.target.value
-    });
+    if (btn_exec_k_means.disabled) {
+        k_means_inst.init({
+            nr_points: number_control.value,
+            k_value: k_select.value,
+            dist_f: e.target.value
+        });
+    }
+    else {
+        k_means_inst.init({ 
+            k_value: k_select.value,
+            dist_f: e.target.value
+        });
+    }
+    reset();
 });
-let btn_exec_k_means = document.getElementById("execute_k_means");
-let btn_step_k_means = document.getElementById("step_k_means");
-let btn_reset_k_means = document.getElementById("reset_k_means");
 
 btn_exec_k_means.addEventListener("click", e => {
     k_means_inst.fullKMeans();
@@ -298,6 +324,11 @@ btn_reset_k_means.addEventListener("click", e => {
         k_value: k_select.value,
         dist_f: dist_select.value
     });
+    reset();
+});
+
+function reset() {
     btn_exec_k_means.disabled = false;
     btn_step_k_means.disabled = false;
-});
+    k_means_inst.start();
+}
