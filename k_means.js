@@ -3,7 +3,7 @@ class k_means {
         this.view = {
             width: 900,
             height: 600,
-            backgroundColor: 240,
+            backgroundColor: 255,
             padding: 40,
             canvas: null,
             p: null,
@@ -31,6 +31,7 @@ class k_means {
 
         this.next_step = -1;
         this.exit = false;
+        this.text = '';
 
         this.init(this.defaultParams);
     };
@@ -48,6 +49,7 @@ class k_means {
         this.dist_f = 'euclid';
         this.centroids = [];
         this.exit = false;
+        this.text = '';
     }
     start() {
         this.view.p.loop();
@@ -68,6 +70,8 @@ class k_means {
             this.drawClusters();
             this.drawPoints(this.points, this.centroids);
             this.drawScales();
+            this.drawText(this.text);
+            console.log("loop")
             this.stop();
         };
     };
@@ -129,6 +133,10 @@ class k_means {
             }
         };
     };
+    drawText(text) {
+        this.view.p.textSize(20);
+        this.view.p.text(text, this.view.width/2, 12);
+    }
     drawMouse(x, y) {
         this.view.p.strokeWeight(2);
         this.view.p.stroke(255, 0, 0);
@@ -203,7 +211,9 @@ class k_means {
                     }
                 });
             }
-            if (point.cluster != initCluster) clusterChange = true;
+            if (point.cluster != initCluster) {
+                clusterChange = true;
+            }
         });
         return !clusterChange;
     }
@@ -228,17 +238,22 @@ class k_means {
     }
 
     step() {
+        
         if (this.exit) {
-            this.stop();
+            this.text = "Oprire: Nu se observă nici o schimbare a centroidelor";
+            this.start();
             return;
         };
         if (this.next_step == -1) {
+            this.text = "Pasul 1: Inițializarea centroidelor din setul de puncte";
             this.getCentroids(this.k, true);
         }
         else if ((this.next_step % 2) == 0) {
+            this.text = "Pasul 2: Atribuirea punctelor la un anumit centroid";
             this.exit = this.assignClusters();
         }
         else if ((this.next_step % 2) != 0) {
+            this.text = "Pasul 3: Actualizarea centroidelor în funcție de puncte";
             this.getCentroids(this.k, false);
         }
         this.next_step += 1;
