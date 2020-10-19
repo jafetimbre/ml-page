@@ -10,19 +10,19 @@ class k_means {
             running: false,
             hovered: false,
             offsetY: Math.floor(this.height / 2),
-        }
+        };
         this.clusterColors = {
             0: 'black',
             1: 'blue',
             2: 'red',
             3: 'green',
             4: 'magenta',
-        }
+        };
         this.defaultParams = {
             nr_points: 50,
             k_value: 2,
             dist_f: 'euclid'
-        }
+        };
 
         this.k = 2;
         this.dist_f = 'euclid';
@@ -50,13 +50,13 @@ class k_means {
         this.centroids = [];
         this.exit = false;
         this.text = '';
-    }
+    };
     start() {
         this.view.p.loop();
-    }
+    };
     stop() {
         this.view.p.noLoop();
-    }
+    };
 
     sketch = p => {
         p.setup = () => {
@@ -74,6 +74,7 @@ class k_means {
             this.stop();
         };
     };
+
     drawPoints(points, centroids) {
         points.forEach(point => {
             this.view.p.strokeWeight(10);
@@ -89,16 +90,18 @@ class k_means {
                 this.view.p.square(this.transX(centroid.x), this.transY(centroid.y), 13)
             })
         }
-    }
+    };
+
     generatePoints(nrPoints) {
         let result = []
         for (let i = 0; i < nrPoints; ++i) {
-            let newX = (Math.random() * 10) + 0.1;
-            let newY = (Math.random() * 6) + 0.1;
+            let newX = (Math.random() * 16) + 0.1;
+            let newY = (Math.random() * 10) + 0.1;
             result[i] = { x: newX, y: newY, cluster: 0 }
         }
         return result
-    }
+    };
+
     drawScales() {
         var step = 5;
         this.view.p.stroke(10);
@@ -132,10 +135,12 @@ class k_means {
             }
         };
     };
+
     drawText(text) {
         this.view.p.textSize(20);
         this.view.p.text(text, this.view.width/2, 12);
-    }
+    };
+
     drawMouse(x, y) {
         this.view.p.strokeWeight(2);
         this.view.p.stroke(255, 0, 0);
@@ -143,10 +148,11 @@ class k_means {
         var cY = this.view.p.constrain(y, 60, this.view.height - this.view.padding);
         this.view.p.line(this.view.padding, cY, this.view.width - this.view.padding, cY);
         this.view.p.line(cX, this.view.height - this.view.padding, cX, this.view.padding);
-    }
-    transX = x => this.view.p.map(x, 0, 10, this.view.padding, this.view.width - (this.view.padding * 1.5));
+    };
+
+    transX = x => this.view.p.map(x, 0, 16, this.view.padding, this.view.width - (this.view.padding * 1.5));
     transXInv = x => this.setPrec(this.p.map(x, this.view.padding, this.width - 60, 0, 50), 1);
-    transY = y => this.view.p.map(y, 0, 6, this.view.height - this.view.padding, this.view.padding + this.view.padding / 2);
+    transY = y => this.view.p.map(y, 0, 10, this.view.height - this.view.padding, this.view.padding + this.view.padding / 2);
     transYInv = y => this.setPrec(this.p.map(y, this.view.height - this.view.padding, this.view.padding + this.view.padding / 2, 0, 30), 1);
     setPrec = (nr, prec) => Number.parseFloat(nr).toFixed(prec);
 
@@ -190,7 +196,6 @@ class k_means {
             let minDist = 9999;
             if (this.dist_f == 'euclid') {
                 this.centroids.forEach( centroid => {
-                    
                     let dist = Math.sqrt(
                         Math.pow(centroid.x - point.x, 2) +
                         Math.pow(centroid.y - point.y, 2));
@@ -202,7 +207,6 @@ class k_means {
             }
             else {
                 this.centroids.forEach( centroid => {
-                    
                     let dist = Math.abs(centroid.x - point.x) + Math.abs(centroid.y - point.y);
                     if (dist < minDist) {
                         minDist = dist;
@@ -232,7 +236,7 @@ class k_means {
             this.view.p.stroke(this.clusterColors[centroid.cluster]);
             this.view.p.ellipseMode(this.view.p.CENTER);
             this.view.p.noFill();
-            this.view.p.ellipse(this.transX(centroid.x), this.transY(centroid.y), width*80, height*80);
+            this.view.p.ellipse(this.transX(centroid.x), this.transY(centroid.y), width*60, height*60);
         });
     }
 
@@ -269,10 +273,10 @@ class k_means {
     }
 }
 
-let k_means_inst = new k_means()
-new p5(k_means_inst.sketch, 'k_means')
+let k_means_inst = new k_means();
+new p5(k_means_inst.sketch, 'k_means');
 
-let number_control = document.getElementById('numberControl')
+let number_control = document.getElementById('numberControl');
 let k_select = document.getElementById("k_select");
 let dist_select = document.getElementById("dist_select");
 let btn_exec_k_means = document.getElementById("execute_k_means");
@@ -284,7 +288,7 @@ number_control.addEventListener('input', e => {
         nr_points: e.target.value, 
         k_value: k_select.value,
         dist_f: dist_select.value
-    })
+    });
     reset();
     k_means_inst.start();
 }, false);
