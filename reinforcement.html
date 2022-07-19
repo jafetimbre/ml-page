@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
+
+    <title>Învățare automată</title>
+</head>
+
+<body>
+    <a>
+        <div class="display-4 text-center m-4">Învățare automată</div>
+    </a>
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" href="#">Proiect 1</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="k_means.html">Proiect 2</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="#">Proiect 3</a>
+        </li>
+    </ul>
+    <div class="container p-5">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title h3">Titlu proiect 3</h5>
+                <div class="dropdown-divider"></div>
+                <p class="card-text">Descriere proiect 3</p>
+
+                <div class="d-flex justify-content-center mt-3">
+                    <div id="reinforcement_canvas" class="d-inline-block"></div>
+                </div>
+
+                <div class="input-group row justify-content-center mx-0 mt-2">
+                    
+                    <div class="input-group-append">
+                        <a id="q_table_save" class="btn btn-primary" type="button">Afisare Q table</a>
+                        <button id="load_q_table" class="btn btn-primary" type="button">Incarcare</button>
+                        <!-- <button id="reset_k_means" class="btn btn-danger" type="button">Resetare</button> -->
+                    </div>
+                </div>
+
+                <!-- <ul class="list-group list-group-flush mt-4">
+                    <li class="list-group-item">
+                        <b>Pasul 1: Inițializare</b> – Se selectează aleator K centre din lista punctelor de intrare pentru a fi noile <i>centroide</i>.
+                    </li>
+                    <li class="list-group-item">
+                        <b>Pasul 2: Atribuire</b> – Fiecare punct din lista de intrare este asociat cu <i>centroidul</i> cel mai apropiat. 
+                        Pentru calcularea distanței (în acest caz) este folosită <i>distanța Euclidiană</i> sau <i>distanța Rectilinie</i>. 
+                    </li>
+                    <li class="list-group-item">
+                        <b>Pasul 3: Actualizare</b> – Se recalculează <i>centroidele</i> grupurilor pe baza funcției de apartenență.
+                        Noile <i>centroide</i> ale grupurilor sunt calculate ca media punctelor din acel grup.
+                    </li>
+                    <li class="list-group-item">
+                        <b>Condiția de terminare</b> – Dacă nu apare nici o schimbare în funcția de
+                        apartenență, atunci algoritmul poate fi oprit deoarece calculele viitoare nu vor produce
+                        nici o schimbare în valorile <i>centroidelor</i>.
+                    </li>
+                  </ul> -->
+            </div>
+        </div>   
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript"src="reinforcement.js"></script>
+
+</body>
+
+</html>
